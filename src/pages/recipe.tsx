@@ -12,8 +12,8 @@ const RECIPES_QUERY = gql`
       title
       image
       createdAtText
-      like_count
-      favorite_count
+      likeCount
+      favoriteCount
       user {
         id
         nickname
@@ -28,7 +28,7 @@ const Recipe: NextPage = () => {
   return (
     <BaseLayout title="レシピを探す">
       {loading && <div>ローディング中です</div>}
-      {!loading && data && (
+      {data && (
         <div className="flex flex-wrap">
           {data.recipes.map((recipe) => (
             <RecipeItem
