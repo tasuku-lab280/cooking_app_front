@@ -1,8 +1,9 @@
 import type { NextPage } from 'next';
 import { gql, useQuery } from '@apollo/client';
 
-import { BaseLayout } from 'layouts/BaseLayout';
 import { RecipeItem } from 'components/Card';
+import { BaseLayout } from 'layouts/BaseLayout';
+import { RecipesQuery } from 'services/graphql/generated';
 
 const RECIPES_QUERY = gql`
   query RecipesQuery {
@@ -21,26 +22,20 @@ const RECIPES_QUERY = gql`
   }
 `;
 
-type RecipeType = {
-  title: string;
-  image: string;
-  createdAt: string;
-};
-
 const Recipe: NextPage = () => {
-  const { data, loading } = useQuery(RECIPES_QUERY);
+  const { data, loading } = useQuery<RecipesQuery>(RECIPES_QUERY);
 
   return (
     <BaseLayout title="レシピを探す">
       {loading && <div>ローディング中です</div>}
       {!loading && data && (
         <div className="flex flex-wrap">
-          {data.recipes.map((recipe: RecipeType, index: string) => (
+          {data.recipes.map((recipe) => (
             <RecipeItem
-              key={index}
+              key={recipe.id}
               title={recipe.title}
               image={recipe.image}
-              createdAt={recipe.createdAt}
+              createdAt={recipe.createdAtText}
             />
           ))}
         </div>

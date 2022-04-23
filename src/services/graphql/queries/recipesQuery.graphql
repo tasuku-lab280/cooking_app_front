@@ -1,0 +1,14 @@
+query recipes {
+  recipes {
+    id
+    title
+    image
+    createdAtText
+    likeCount
+    favoriteCount
+    user {
+      id
+      nickname
+    }
+  }
+}
