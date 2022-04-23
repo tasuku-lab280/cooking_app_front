@@ -9,7 +9,7 @@ type Props = {
 
 export const Menu = ({ href, title, icon }: Props) => {
   const router = useRouter();
-  const activeClass = router.pathname.startsWith(href) ? 'text-green-500' : '';
+  const activeClass = router.pathname === href ? 'text-green-500' : '';
 
   return (
     <Link href={href}>

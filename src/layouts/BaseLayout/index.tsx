@@ -16,7 +16,7 @@ export const BaseLayout = (props: Props) => {
           <div className="flex items-center font-bold text-lg bg-white h-12 px-4 border-b">
             <h2 className="break-all line-clamp-1">{title}</h2>
           </div>
-          {children}
+          <div className="p-5">{children}</div>
         </main>
       </div>
     </div>
