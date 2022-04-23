@@ -1,5 +1,5 @@
-import { NavPc } from './NavPc';
-import { NavSp } from './NavSp';
+import { NavPc } from './PC';
+import { NavSp } from './SP';
 
 export const Navbar = () => {
   return (
