@@ -24,7 +24,11 @@ export const RecipeItem = (props: Props) => {
     <div className="w-80 mr-5 mb-5">
       <Card shadow="sm" p="lg">
         <Card.Section>
-          <Image src={image} height={160} alt="Norway" />
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${image}`}
+            height={160}
+            alt="Norway"
+          />
         </Card.Section>
 
         <Group
