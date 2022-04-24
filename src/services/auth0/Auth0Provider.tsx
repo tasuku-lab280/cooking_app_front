@@ -7,7 +7,7 @@ type Props = {
 const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
 const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '';
 const audience = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-const redirectUri = process.env.NEXT_PUBLIC_BASE_URL || '';
+const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/callback` || '';
 
 export const Auth0Provider = ({ children }: Props) => {
   return (
