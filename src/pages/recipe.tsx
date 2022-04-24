@@ -1,54 +1,45 @@
 import type { NextPage } from 'next';
+import { gql, useQuery } from '@apollo/client';
 
-import { BaseLayout } from 'layouts/BaseLayout';
 import { RecipeItem } from 'components/Card';
+import { BaseLayout } from 'layouts/BaseLayout';
+import { RecipesQuery } from 'services/graphql/generated';
 
-const recipes = [
-  {
-    title:
-      'With Fjord Tours you can explore more of the magical fjord Tours you can explore more of the magical fjord',
-    image: './vercel.svg',
-    createdAt: '2022/04/22',
-  },
-  {
-    title:
-      'With Fjord Tours you can explore more of the magical fjord Tours you can explore more of the magical fjord',
-    image: './vercel.svg',
-    createdAt: '2022/04/22',
-  },
-  {
-    title:
-      'With Fjord Tours you can explore more of the magical fjord Tours you can explore more of the magical fjord',
-    image: './vercel.svg',
-    createdAt: '2022/04/22',
-  },
-  {
-    title:
-      'With Fjord Tours you can explore more of the magical fjord Tours you can explore more of the magical fjord',
-    image: './vercel.svg',
-    createdAt: '2022/04/22',
-  },
-];
-
-type RecipeType = {
-  title: string;
-  image: string;
-  createdAt: string;
-};
+const RECIPES_QUERY = gql`
+  query RecipesQuery {
+    recipes {
+      id
+      title
+      image
+      createdAtText
+      likeCount
+      favoriteCount
+      user {
+        id
+        nickname
+      }
+    }
+  }
+`;
 
 const Recipe: NextPage = () => {
+  const { data, loading } = useQuery<RecipesQuery>(RECIPES_QUERY);
+
   return (
     <BaseLayout title="レシピを探す">
-      <div className="flex flex-wrap">
-        {recipes.map((recipe: RecipeType, index) => (
-          <RecipeItem
-            key={index}
-            title={recipe.title}
-            image={recipe.image}
-            createdAt={recipe.createdAt}
-          />
-        ))}
-      </div>
+      {loading && <div>ローディング中です</div>}
+      {data && (
+        <div className="flex flex-wrap">
+          {data.recipes.map((recipe) => (
+            <RecipeItem
+              key={recipe.id}
+              title={recipe.title}
+              image={recipe.image}
+              createdAt={recipe.createdAtText}
+            />
+          ))}
+        </div>
+      )}
     </BaseLayout>
   );
 };
