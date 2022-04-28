@@ -4,7 +4,7 @@ type currentUserState = {
   id: number | null;
   email: string;
   nickname: string;
-  image: string;
+  image?: string;
   isLoggedIn: boolean;
 };
 

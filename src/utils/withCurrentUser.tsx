@@ -1,50 +1,68 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { LoadingOverlay } from '@mantine/core';
 
+import { START_PATH } from 'constants/routeName';
 import { useCurrentUser } from 'hooks/useCurrentUser';
+import { login } from 'services/redux/slices/currentUserSlice';
+import { useAppSelector, useAppDispatch } from 'hooks/useStore';
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const START_PATH = '/callback';
-
-const UserController = ({ children }: Props) => {
-  const router = useRouter();
-  const { currentUser, loading } = useCurrentUser();
-
-  const isStartPath = useMemo(() => {
-    return router.pathname === START_PATH;
-  }, [router.pathname]);
-
-  useEffect(() => {
-    if (loading) return;
-    (async () => {
-      if (currentUser && isStartPath) return router.push('/');
-      if (!currentUser && !isStartPath) return router.push(START_PATH);
-    })();
-  }, [router, currentUser, loading, isStartPath]);
-
-  if (currentUser || isStartPath) {
-    return <>{children}</>;
-  }
-
-  return <LoadingOverlay visible />;
-};
-
+// アクセス制御
 export const withCurrentUser = (Component: NextPage) => {
   const PrivateRoute = () => {
     return (
-      <UserController>
+      <RequestState>
         <Component />
-      </UserController>
+      </RequestState>
     );
   };
 
   return withAuthenticationRequired(PrivateRoute, {
     onRedirecting: () => <LoadingOverlay visible />,
   });
+};
+
+type Props = {
+  children: React.ReactNode;
+};
+
+// storeの認証情報をチェック
+const RequestState = ({ children }: Props) => {
+  const isLoggedIn = useAppSelector((state) => state.currentUser.isLoggedIn);
+
+  if (isLoggedIn) return <>{children}</>;
+  return <RequestApi>{children}</RequestApi>;
+};
+
+// APIサーバの認証情報をチェック
+const RequestApi = ({ children }: Props) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { currentUser, loading } = useCurrentUser();
+  const id = currentUser?.id;
+  const email = currentUser?.email;
+  const nickname = currentUser?.nickname;
+
+  useEffect(() => {
+    const controlAccess = async () => {
+      if (loading) return;
+
+      // アカウント未登録
+      if (!currentUser) return router.push(START_PATH);
+
+      // アカウント登録済
+      if (currentUser) {
+        return dispatch(login({ id, email, nickname, isLoggedIn: true }));
+      }
+    };
+    controlAccess();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, loading]);
+
+  if (loading) return <LoadingOverlay visible />;
+
+  return <>{children}</>;
 };
