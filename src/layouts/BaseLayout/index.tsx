@@ -1,24 +1,31 @@
+import { AppShell, useMantineTheme } from '@mantine/core';
+
+import { Header } from 'layouts/Header';
 import { Navbar } from 'layouts/Navbar';
 
 type Props = {
   children: React.ReactNode;
-  title: string;
 };
 
-export const BaseLayout = (props: Props) => {
-  const { children, title } = props;
+export const BaseLayout = ({ children }: Props) => {
+  const theme = useMantineTheme();
 
   return (
-    <div className="min-h-screen">
-      <div className="md:flex md:flex-1">
-        <Navbar />
-        <main className="flex-1 md:border-l md:border-r md:border-gray-200 pb-40">
-          <div className="flex items-center font-bold text-lg bg-white h-12 px-4 border-b">
-            <h2 className="break-all line-clamp-1">{title}</h2>
-          </div>
-          <div className="p-5">{children}</div>
-        </main>
-      </div>
-    </div>
+    <AppShell
+      styles={{
+        main: {
+          background:
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
+        },
+      }}
+      navbarOffsetBreakpoint="sm"
+      fixed
+      navbar={<Navbar />}
+      header={<Header />}
+    >
+      {children}
+    </AppShell>
   );
 };
