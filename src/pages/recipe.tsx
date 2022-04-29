@@ -4,6 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 import { RecipeItem } from 'components/Card';
 import { BaseLayout } from 'layouts/BaseLayout';
 import { RecipesQuery } from 'services/graphql/generated';
+import { withCurrentUser } from 'utils/withCurrentUser';
 
 const RECIPES_QUERY = gql`
   query RecipesQuery {
@@ -44,4 +45,4 @@ const Recipe: NextPage = () => {
   );
 };
 
-export default Recipe;
+export default withCurrentUser(Recipe);
