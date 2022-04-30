@@ -27,10 +27,10 @@ const Start: NextPage = () => {
       email: '',
     },
     validate: {
-      // nickname: (value) =>
-      //   value.length < 32 ? null : 'ニックネームは32文字以内にしてください',
-      // email: (value) =>
-      //   /^\S+@\S+$/.test(value) ? null : 'Eメールは不正なフォーマットです',
+      nickname: (value) =>
+        value.length < 32 ? null : 'ニックネームは32文字以内にしてください',
+      email: (value) =>
+        /^\S+@\S+$/.test(value) ? null : 'Eメールは不正なフォーマットです',
     },
   });
 
@@ -50,7 +50,7 @@ const Start: NextPage = () => {
       </Center>
       <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
         <TextInput
-          // required
+          required
           size="lg"
           label="ニックネーム"
           placeholder="ニックネーム"
@@ -59,7 +59,7 @@ const Start: NextPage = () => {
           {...form.getInputProps('nickname')}
         />
         <TextInput
-          // required
+          required
           size="lg"
           label="Eメール"
           placeholder="your@email.com"
