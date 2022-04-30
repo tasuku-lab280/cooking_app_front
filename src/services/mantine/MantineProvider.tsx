@@ -4,6 +4,7 @@ import {
   ColorSchemeProvider,
   ColorScheme,
 } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 
 type Props = {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export const MantineProvider = ({ children }: Props) => {
       toggleColorScheme={toggleColorScheme}
     >
       <Provider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-        {children}
+        <NotificationsProvider>{children}</NotificationsProvider>
       </Provider>
     </ColorSchemeProvider>
   );
