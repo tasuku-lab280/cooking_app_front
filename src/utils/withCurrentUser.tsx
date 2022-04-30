@@ -41,9 +41,6 @@ const RequestApi = ({ children }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { currentUser, loading } = useCurrentUser();
-  const id = currentUser?.id;
-  const email = currentUser?.email;
-  const nickname = currentUser?.nickname;
 
   useEffect(() => {
     const controlAccess = async () => {
@@ -54,6 +51,7 @@ const RequestApi = ({ children }: Props) => {
 
       // アカウント登録済
       if (currentUser) {
+        const { id, email, nickname } = currentUser;
         return dispatch(login({ id, email, nickname, isLoggedIn: true }));
       }
     };
