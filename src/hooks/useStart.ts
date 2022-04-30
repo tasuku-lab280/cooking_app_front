@@ -28,7 +28,7 @@ export const useStart = () => {
   const { currentUser, loading: currentUserLoading } = useCurrentUser();
   const [createUser, { loading: createUserLoading }] =
     useMutation<CreateUserMutation>(CREATE_USER_MUTATION, {
-      onCompleted: (data) => {
+      onCompleted: async (data) => {
         const createUserData = data.createUser;
 
         // バリデーションエラー
@@ -47,12 +47,12 @@ export const useStart = () => {
         if (createUserData?.user) {
           const { id, email, nickname } = createUserData.user;
           dispatch(login({ id, email, nickname, isLoggedIn: true }));
-          router.push('/');
+          await router.push('/');
           showNotification({
             title: 'アカウント登録しました！',
             message: '早速レシピを登録してみましょう！',
             color: 'teal',
-            autoClose: 10000,
+            autoClose: 20000,
           });
           return;
         }
