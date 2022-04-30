@@ -1,0 +1,10 @@
+mutation CreateUser($email: String!, $nickname: String!) {
+  createUser(input: { email: $email, nickname: $nickname }) {
+    user {
+      id
+      email
+      nickname
+    }
+    errors
+  }
+}

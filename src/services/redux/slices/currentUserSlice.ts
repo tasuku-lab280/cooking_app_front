@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type currentUserState = {
-  id: number | null;
+  id: string;
   email: string;
   nickname: string;
   image?: string;
@@ -9,7 +9,7 @@ type currentUserState = {
 };
 
 const initialState: currentUserState = {
-  id: null,
+  id: '',
   email: '',
   nickname: '',
   image: '',

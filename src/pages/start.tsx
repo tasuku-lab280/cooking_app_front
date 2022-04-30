@@ -1,73 +1,97 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import { LoadingOverlay, Button } from '@mantine/core';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  Button,
+  Container,
+  Center,
+  Text,
+  TextInput,
+  LoadingOverlay,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
 
-import { useAppDispatch } from 'hooks/useStore';
-import { useCurrentUser } from 'hooks/useCurrentUser';
-import { login } from 'services/redux/slices/currentUserSlice';
+import { useStart } from 'hooks/useStart';
 
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUserMutation($email: String!, $nickname: String!) {
-    createUser(input: { email: $email, nickname: $nickname }) {
-      result
-      user {
-        id
-        email
-        nickname
-      }
-    }
-  }
-`;
+type Params = {
+  nickname: string;
+  email: string;
+};
 
 const Start: NextPage = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [isFetchng, setIsFetchng] = useState(true);
-  const { currentUser, loading } = useCurrentUser();
-  const [createUser] = useMutation(CREATE_USER_MUTATION);
+  const { logout } = useAuth0();
+  const { loading, createUser, createUserLoading } = useStart();
 
-  useEffect(() => {
-    if (loading) return;
+  const form = useForm({
+    initialValues: {
+      nickname: '',
+      email: '',
+    },
+    validate: {
+      nickname: (value) =>
+        value.length < 32 ? null : 'ニックネームは32文字以内にしてください',
+      email: (value) =>
+        /^\S+@\S+$/.test(value) ? null : 'Eメールは不正なフォーマットです',
+    },
+  });
 
-    if (currentUser) {
-      dispatch(
-        login({
-          id: currentUser.id,
-          email: currentUser.email,
-          nickname: currentUser.nickname,
-          isLoggedIn: true,
-        })
-      );
-      router.push('/');
-    }
-
-    if (!currentUser) setIsFetchng(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, loading]);
-
-  const onClickCreateUser = async () => {
-    try {
-      const createUserData = await createUser({
-        variables: { nickname: 'test', email: 'test@example.com' },
-      });
-
-      const { id, email, nickname } = createUserData.data.createUser.user;
-      dispatch(login({ id, email, nickname, isLoggedIn: true }));
-      router.push('/');
-    } catch (error) {
-      alert(`システムエラーが発生しました。\n${error}`);
-    }
+  const onSubmit = (values: Params) => {
+    const { nickname, email } = values;
+    createUser({ variables: { nickname, email } });
   };
 
-  if (loading || isFetchng) return <LoadingOverlay visible />;
+  if (loading) return <LoadingOverlay visible />;
 
   return (
-    <>
-      <Button onClick={onClickCreateUser}>アカウント作成</Button>
-    </>
+    <Container size="sm" px="xs" className="mt-20">
+      <Center>
+        <Text size="xl" weight={800} className="mb-16">
+          アカウント登録
+        </Text>
+      </Center>
+      <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
+        <TextInput
+          required
+          size="lg"
+          label="ニックネーム"
+          placeholder="ニックネーム"
+          className="mb-8"
+          classNames={{ label: 'font-bold' }}
+          {...form.getInputProps('nickname')}
+        />
+        <TextInput
+          required
+          size="lg"
+          label="Eメール"
+          placeholder="your@email.com"
+          classNames={{ label: 'font-bold' }}
+          {...form.getInputProps('email')}
+        />
+        <Center className="mt-16">
+          <Button
+            type="submit"
+            color="teal"
+            fullWidth
+            size="md"
+            disabled={createUserLoading}
+            loading={createUserLoading}
+          >
+            アカウント登録する
+          </Button>
+        </Center>
+        <Center className="mt-8">
+          <Button
+            color="red"
+            fullWidth
+            variant="outline"
+            size="md"
+            disabled={createUserLoading}
+            onClick={() => logout()}
+          >
+            ログアウト
+          </Button>
+        </Center>
+      </form>
+    </Container>
   );
 };
 
