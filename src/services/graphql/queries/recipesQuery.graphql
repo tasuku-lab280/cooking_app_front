@@ -9,6 +9,11 @@ query recipes {
     user {
       id
       nickname
+      image
+    }
+    tags {
+      id
+      name
     }
   }
 }

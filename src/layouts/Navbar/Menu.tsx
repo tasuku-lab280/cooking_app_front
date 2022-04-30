@@ -3,7 +3,7 @@ import { Home, Timeline, Notes, Bread } from 'tabler-icons-react';
 
 import {
   HOME_PATH,
-  RECIPE_PATH,
+  RECIPES_PATH,
   TIMELINE_PATH,
   MENU_PATH,
 } from 'constants/routeName';
@@ -18,7 +18,7 @@ const beforeLoginLinks = [
   },
   {
     label: 'レシピを探す',
-    href: RECIPE_PATH,
+    href: RECIPES_PATH,
     icon: <Notes size={30} />,
     color: 'violet',
   },
@@ -39,7 +39,7 @@ const afterLoginLinks = [
   },
   {
     label: 'レシピを探す',
-    href: RECIPE_PATH,
+    href: RECIPES_PATH,
     icon: <Notes size={30} />,
     color: 'violet',
   },
