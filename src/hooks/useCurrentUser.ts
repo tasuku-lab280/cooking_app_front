@@ -1,7 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
 
+import { CurrentUserQuery } from 'services/graphql/types/generated';
+
 const CURRENT_USER_QUERY = gql`
-  query CurrentUserQuery {
+  query CurrentUser {
     currentUser {
       id
       email
@@ -11,7 +13,8 @@ const CURRENT_USER_QUERY = gql`
 `;
 
 export const useCurrentUser = () => {
-  const { data, loading, error } = useQuery(CURRENT_USER_QUERY);
+  const { data, loading, error } =
+    useQuery<CurrentUserQuery>(CURRENT_USER_QUERY);
   const currentUser = data?.currentUser;
 
   return { currentUser, loading, error };
