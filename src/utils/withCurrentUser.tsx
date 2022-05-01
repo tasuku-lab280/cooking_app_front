@@ -51,8 +51,8 @@ const RequestApi = ({ children }: Props) => {
 
       // アカウント登録済
       if (currentUser) {
-        const { id, email, nickname } = currentUser;
-        return dispatch(login({ id, email, nickname, isLoggedIn: true }));
+        const { id, accountId, nickname } = currentUser;
+        return dispatch(login({ id, accountId, nickname, isLoggedIn: true }));
       }
     };
     controlAccess();

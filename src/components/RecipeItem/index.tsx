@@ -20,15 +20,15 @@ type Recipe = { recipe: RecipesQuery['recipes'][number] };
 export const RecipeItem = ({ recipe }: Recipe) => {
   const {
     id,
-    title,
-    image,
+    name,
+    picture,
     createdAtText,
     likeCount,
     favoriteCount,
     user,
-    tags,
+    categories,
   } = recipe;
-  const { nickname: userNickname, image: userImage } = user;
+  const { nickname: userNickname, icon: userIcon } = user;
   const { classes, theme } = useStyles();
 
   return (
@@ -37,25 +37,25 @@ export const RecipeItem = ({ recipe }: Recipe) => {
         <Card withBorder p="lg" radius="md" className={classes.card}>
           <Card.Section mb="sm">
             <Image
-              src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${image}`}
-              alt={title}
+              src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${picture}`}
+              alt={name}
               height={180}
             />
           </Card.Section>
 
-          {tags?.map((tag) => (
-            <Badge key={tag.id} mr={5} color="teal">
-              {tag.name}
+          {categories?.map((category) => (
+            <Badge key={category.id} mr={5} color="teal">
+              {category.name}
             </Badge>
           ))}
 
           <Text weight={700} className={classes.title} mt="xs">
-            {title}
+            {name}
           </Text>
 
           <Group mt="lg">
             <Avatar
-              src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${userImage}`}
+              src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${userIcon}`}
               radius="sm"
             />
             <div>

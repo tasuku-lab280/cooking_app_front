@@ -12,17 +12,17 @@ const RECIPES_QUERY = gql`
   query RecipesQuery {
     recipes {
       id
-      title
-      image
+      name
+      picture
       createdAtText
       likeCount
       favoriteCount
       user {
         id
         nickname
-        image
+        icon
       }
-      tags {
+      categories {
         id
         name
       }

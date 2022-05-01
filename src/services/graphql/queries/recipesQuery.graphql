@@ -1,17 +1,17 @@
 query recipes {
   recipes {
     id
-    title
-    image
+    name
+    picture
     createdAtText
     likeCount
     favoriteCount
     user {
       id
       nickname
-      image
+      icon
     }
-    tags {
+    categories {
       id
       name
     }

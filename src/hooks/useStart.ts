@@ -9,11 +9,11 @@ import { CreateUserMutation } from 'services/graphql/types/generated';
 import { login } from 'services/redux/slices/currentUserSlice';
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUserMutation($email: String!, $nickname: String!) {
-    createUser(input: { email: $email, nickname: $nickname }) {
+  mutation CreateUserMutation($accountId: String!, $nickname: String!) {
+    createUser(input: { accountId: $accountId, nickname: $nickname }) {
       user {
         id
-        email
+        accountId
         nickname
       }
       errors
@@ -45,8 +45,8 @@ export const useStart = () => {
 
         // 正常処理
         if (createUserData?.user) {
-          const { id, email, nickname } = createUserData.user;
-          dispatch(login({ id, email, nickname, isLoggedIn: true }));
+          const { id, accountId, nickname } = createUserData.user;
+          dispatch(login({ id, accountId, nickname, isLoggedIn: true }));
           await router.push('/');
           showNotification({
             title: 'アカウント登録しました！',
@@ -72,7 +72,7 @@ export const useStart = () => {
       dispatch(
         login({
           id: currentUser.id,
-          email: currentUser.email,
+          accountId: currentUser.accountId,
           nickname: currentUser.nickname,
           isLoggedIn: true,
         })

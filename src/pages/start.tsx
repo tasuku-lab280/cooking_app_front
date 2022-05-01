@@ -14,7 +14,7 @@ import { useStart } from 'hooks/useStart';
 
 type Params = {
   nickname: string;
-  email: string;
+  accountId: string;
 };
 
 const Start: NextPage = () => {
@@ -24,19 +24,19 @@ const Start: NextPage = () => {
   const form = useForm({
     initialValues: {
       nickname: '',
-      email: '',
+      accountId: '',
     },
     validate: {
       nickname: (value) =>
         value.length < 32 ? null : 'ニックネームは32文字以内にしてください',
-      email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : 'Eメールは不正なフォーマットです',
+      accountId: (value) =>
+        value.length < 32 ? null : 'アカウントIDは32文字以内にしてください',
     },
   });
 
   const onSubmit = (values: Params) => {
-    const { nickname, email } = values;
-    createUser({ variables: { nickname, email } });
+    const { nickname, accountId } = values;
+    createUser({ variables: { nickname, accountId } });
   };
 
   if (loading) return <LoadingOverlay visible />;
@@ -61,10 +61,10 @@ const Start: NextPage = () => {
         <TextInput
           required
           size="lg"
-          label="Eメール"
-          placeholder="your@email.com"
+          label="アカウントID"
+          placeholder="アカウントID"
           classNames={{ label: 'font-bold' }}
-          {...form.getInputProps('email')}
+          {...form.getInputProps('accountId')}
         />
         <Center className="mt-16">
           <Button
