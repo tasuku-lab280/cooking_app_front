@@ -1,9 +1,12 @@
+import Link from 'next/link';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Button } from '@mantine/core';
 import { Home, Timeline, Notes, Bread } from 'tabler-icons-react';
 
 import {
   HOME_PATH,
   RECIPES_PATH,
+  RECIPE_NEW_PATH,
   TIMELINE_PATH,
   MENU_PATH,
 } from 'constants/routeName';
@@ -68,6 +71,20 @@ export const Menu = () => {
           {afterLoginLinks.map((link) => (
             <MenuItem {...link} key={link.label} />
           ))}
+          <Link href={RECIPE_NEW_PATH} passHref>
+            <a>
+              <Button
+                color="teal"
+                radius="xl"
+                size="md"
+                mt={20}
+                fullWidth
+                onClick={() => false}
+              >
+                レシピを登録する
+              </Button>
+            </a>
+          </Link>
         </>
       )}
     </div>

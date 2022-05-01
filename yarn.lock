@@ -1083,6 +1083,13 @@
     react-popper "^2.2.5"
     react-textarea-autosize "^8.3.2"
 
+"@mantine/dropzone@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@mantine/dropzone/-/dropzone-4.2.1.tgz#42391f296a75b7448e28e4e09031257b1e585d08"
+  integrity sha512-MT3BPfw+2MteGTIrm1EoAdKDhpQ5kE5POs87njNWhbav82grE4JHmtCCj8Na4U3+e6O6ic3uh+ofK048lY7aDg==
+  dependencies:
+    react-dropzone "^11.4.2"
+
 "@mantine/form@^4.1.4":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@mantine/form/-/form-4.1.4.tgz#3a2f076c23e36fa841ca7188b7c08c48be327b4d"
@@ -1715,6 +1722,11 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
+
+attr-accept@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-2.2.2.tgz#646613809660110749e92f2c10833b70968d929b"
+  integrity sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==
 
 auto-bind@~4.0.0:
   version "4.0.0"
@@ -2912,6 +2924,13 @@ file-entry-cache@^6.0.1:
   integrity sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
   dependencies:
     flat-cache "^3.0.4"
+
+file-selector@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.4.0.tgz#59ec4f27aa5baf0841e9c6385c8386bef4d18b17"
+  integrity sha512-iACCiXeMYOvZqlF1kTiYINzgepRBymz1wwjiuup9u9nayhb6g4fSwiyJ/6adli+EPwrWtpgQAh2PoS7HukEGEg==
+  dependencies:
+    tslib "^2.0.3"
 
 fill-range@^7.0.1:
   version "7.0.1"
@@ -4589,6 +4608,15 @@ react-dom@18.0.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.21.0"
+
+react-dropzone@^11.4.2:
+  version "11.7.1"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.7.1.tgz#3851bb75b26af0bf1b17ce1449fd980e643b9356"
+  integrity sha512-zxCMwhfPy1olUEbw3FLNPLhAm/HnaYH5aELIEglRbqabizKAdHs0h+WuyOpmA+v1JXn0++fpQDdNfUagWt5hJQ==
+  dependencies:
+    attr-accept "^2.2.2"
+    file-selector "^0.4.0"
+    prop-types "^15.8.1"
 
 react-fast-compare@^3.0.1:
   version "3.2.0"
