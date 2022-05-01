@@ -9,7 +9,7 @@ import { CreateUserMutation } from 'services/graphql/types/generated';
 import { login } from 'services/redux/slices/currentUserSlice';
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUserMutation($accountId: String!, $nickname: String!) {
+  mutation CreateUser($accountId: String!, $nickname: String!) {
     createUser(input: { accountId: $accountId, nickname: $nickname }) {
       user {
         id
