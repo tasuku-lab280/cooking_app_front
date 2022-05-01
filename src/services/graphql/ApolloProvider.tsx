@@ -1,9 +1,9 @@
 import {
   ApolloClient,
   ApolloProvider as Provider,
-  createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { setContext } from '@apollo/client/link/context';
 
@@ -25,11 +25,12 @@ export const ApolloProvider = ({ children }: Props) => {
     };
   });
 
-  const httpLink = createHttpLink({
+  const httpLink = createUploadLink({
     uri: `${process.env.NEXT_PUBLIC_API_BASE_URL}/graphql`,
   });
 
   const client = new ApolloClient({
+    //@ts-ignore
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });

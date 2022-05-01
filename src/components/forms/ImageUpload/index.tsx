@@ -2,12 +2,36 @@ import { Group, Text, useMantineTheme, MantineTheme } from '@mantine/core';
 import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
-export const ImageUpload = () => {
+type Prop = {
+  form: any;
+  label: string;
+};
+
+export const ImageUpload = ({ form, label }: Prop) => {
   const theme = useMantineTheme();
+
+  const convertToFile = (file: File) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      const string = reader.result;
+      if (!string) return;
+      form.setFieldValue(label, _convertToFile(string, file));
+    });
+
+    if (file) reader.readAsDataURL(file);
+  };
+
+  const _convertToFile = (string: string, file: File) => {
+    const blob = window.atob(string.replace(/^.*,/, ''));
+    let buffer = new Uint8Array(blob.length);
+    for (let i = 0; i < blob.length; i++) buffer[i] = blob.charCodeAt(i);
+    return new File([buffer.buffer], file.name, { type: file.type });
+  };
 
   return (
     <Dropzone
-      onDrop={(files) => console.log('accepted files', files)}
+      onDrop={(files) => convertToFile(files[0])}
       onReject={(files) => console.log('rejected files', files)}
       maxSize={3 * 1024 ** 2}
       accept={IMAGE_MIME_TYPE}

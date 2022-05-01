@@ -35,7 +35,7 @@ type Params = {
   status: boolean;
   name: string;
   description: string;
-  // picture: string | null;
+  picture: File | null;
   reference: string;
   categoryIds: string[];
 };
@@ -58,7 +58,7 @@ const RecipeNew: NextPage = () => {
       status: true,
       name: '',
       description: '',
-      // picture: null,
+      picture: null,
       reference: '',
       categoryIds: [],
     },
@@ -71,8 +71,6 @@ const RecipeNew: NextPage = () => {
   });
 
   const onSubmit = (values: Params) => {
-    console.log(values);
-
     createRecipe({
       variables: {
         input: {
@@ -182,7 +180,7 @@ const RecipeNew: NextPage = () => {
               required
               classNames={{ label: 'font-bold' }}
             >
-              <ImageUpload />
+              <ImageUpload form={form} label="picture" />
             </InputWrapper>
           </Grid.Col>
         </Grid>

@@ -13,6 +13,7 @@ export type Scalars = {
   Float: number;
   /** An ISO 8601-encoded datetime */
   ISO8601DateTime: any;
+  Upload: any;
 };
 
 export type Category = {
@@ -59,6 +60,7 @@ export type Input = {
   categoryIds: Array<Scalars['String']>;
   description: Scalars['String'];
   name: Scalars['String'];
+  picture: Scalars['Upload'];
   reference?: InputMaybe<Scalars['String']>;
   status: Scalars['String'];
 };
