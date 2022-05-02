@@ -7,15 +7,18 @@ import { createUploadLink } from 'apollo-upload-client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { setContext } from '@apollo/client/link/context';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = { children: React.ReactNode };
 
 export const ApolloProvider = ({ children }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const authLink = setContext(async (_, { headers }) => {
-    const token = await getAccessTokenSilently();
+    let token;
+    try {
+      token = await getAccessTokenSilently();
+    } catch {
+      token = '';
+    }
 
     return {
       headers: {
