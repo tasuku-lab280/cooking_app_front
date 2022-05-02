@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { gql, useMutation } from '@apollo/client';
 import { showNotification } from '@mantine/notifications';
 
-import { useAppDispatch } from 'hooks/useStore';
 import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useAppDispatch } from 'hooks/useStore';
 import { CreateUserMutation } from 'services/graphql/types/generated';
 import { login } from 'services/redux';
 
@@ -24,8 +24,11 @@ const CREATE_USER_MUTATION = gql`
 export const useStart = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isFetchng, setIsFetchng] = useState(true);
+
   const { currentUser, loading: currentUserLoading } = useCurrentUser();
+  const [isFetchng, setIsFetchng] = useState(true);
+  const loading = currentUserLoading || isFetchng;
+
   const [createUser, { loading: createUserLoading }] =
     useMutation<CreateUserMutation>(CREATE_USER_MUTATION, {
       onCompleted: async (data) => {
@@ -84,8 +87,6 @@ export const useStart = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, currentUserLoading]);
-
-  const loading = currentUserLoading || isFetchng;
 
   return { loading, createUser, createUserLoading };
 };

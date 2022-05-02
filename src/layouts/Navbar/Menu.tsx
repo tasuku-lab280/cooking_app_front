@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button } from '@mantine/core';
+import { Button, Skeleton } from '@mantine/core';
 import { Home, Timeline, Notes, Bread } from 'tabler-icons-react';
 
 import {
@@ -10,9 +10,11 @@ import {
   TIMELINE_PATH,
   MENU_PATH,
 } from 'constants/routeName';
-import { MenuItem } from 'layouts/Navbar/MenuItem';
+import { MenuItem } from './MenuItem';
 
-const beforeLoginLinks = [
+const SKELTON_MENU_LENGTHS = 4;
+
+const BEFORE_LOGIN_LINKS = [
   {
     label: 'ホーム',
     href: HOME_PATH,
@@ -27,7 +29,7 @@ const beforeLoginLinks = [
   },
 ];
 
-const afterLoginLinks = [
+const AFTER_LOGIN_LINKS = [
   {
     label: 'ホーム',
     href: HOME_PATH,
@@ -55,38 +57,43 @@ const afterLoginLinks = [
 ];
 
 export const Menu = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return (
+      <>
+        {[...Array(SKELTON_MENU_LENGTHS)].map((_, index) => (
+          <div key={index} className="flex ml-2.5 py-2.5">
+            <Skeleton height={35} width={42} />
+            <Skeleton height={35} radius="xl" ml="md" />
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        {BEFORE_LOGIN_LINKS.map((link) => (
+          <MenuItem {...link} key={link.label} />
+        ))}
+      </>
+    );
+  }
 
   return (
-    <div>
-      {!isAuthenticated && (
-        <>
-          {beforeLoginLinks.map((link) => (
-            <MenuItem {...link} key={link.label} />
-          ))}
-        </>
-      )}
-      {isAuthenticated && (
-        <>
-          {afterLoginLinks.map((link) => (
-            <MenuItem {...link} key={link.label} />
-          ))}
-          <Link href={RECIPE_NEW_PATH} passHref>
-            <a>
-              <Button
-                color="teal"
-                radius="xl"
-                size="md"
-                mt={20}
-                fullWidth
-                onClick={() => false}
-              >
-                レシピを登録する
-              </Button>
-            </a>
-          </Link>
-        </>
-      )}
-    </div>
+    <>
+      {AFTER_LOGIN_LINKS.map((link) => (
+        <MenuItem {...link} key={link.label} />
+      ))}
+      <Link href={RECIPE_NEW_PATH} passHref>
+        <a>
+          <Button color="teal" radius="xl" size="md" mt={20} fullWidth>
+            レシピを登録する
+          </Button>
+        </a>
+      </Link>
+    </>
   );
 };

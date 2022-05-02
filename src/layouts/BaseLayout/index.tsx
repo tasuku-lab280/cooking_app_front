@@ -3,9 +3,7 @@ import { AppShell, Container, useMantineTheme } from '@mantine/core';
 import { Header } from 'layouts/Header';
 import { Navbar } from 'layouts/Navbar';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = { children: React.ReactNode };
 
 export const BaseLayout = ({ children }: Props) => {
   const theme = useMantineTheme();

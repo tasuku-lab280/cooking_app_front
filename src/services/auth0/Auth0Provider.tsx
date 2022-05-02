@@ -1,8 +1,6 @@
 import { Auth0Provider as Provider } from '@auth0/auth0-react';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = { children: React.ReactNode };
 
 const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
 const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '';

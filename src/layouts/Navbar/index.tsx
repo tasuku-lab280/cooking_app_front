@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const Navbar = (props: Props) => {
-  const { isAuthenticated, logout } = useAuth0();
   const { isDrawer } = props;
+  const { isAuthenticated, logout } = useAuth0();
 
   return (
     <MantineNavbar
