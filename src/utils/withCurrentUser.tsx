@@ -6,7 +6,7 @@ import { LoadingOverlay } from '@mantine/core';
 
 import { START_PATH } from 'constants/routeName';
 import { useCurrentUser } from 'hooks/useCurrentUser';
-import { login } from 'services/redux/slices/currentUserSlice';
+import { login } from 'services/redux';
 import { useAppSelector, useAppDispatch } from 'hooks/useStore';
 
 // アクセス制御

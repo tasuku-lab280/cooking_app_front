@@ -6,7 +6,7 @@ import { showNotification } from '@mantine/notifications';
 import { useAppDispatch } from 'hooks/useStore';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { CreateUserMutation } from 'services/graphql/types/generated';
-import { login } from 'services/redux/slices/currentUserSlice';
+import { login } from 'services/redux';
 
 const CREATE_USER_MUTATION = gql`
   mutation CreateUser($accountId: String!, $nickname: String!) {
