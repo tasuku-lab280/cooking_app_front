@@ -15,7 +15,6 @@ import { RecipeItem } from 'components/RecipeItem';
 import { useCategory } from 'hooks/useCategory';
 import { BaseLayout } from 'layouts/BaseLayout';
 import { RecipesQuery } from 'services/graphql/types/generated';
-import { withCurrentUser } from 'utils/withCurrentUser';
 
 const RECIPES_QUERY = gql`
   query RecipesQuery($keyword: String, $categoryIds: [String!]) {
@@ -124,4 +123,4 @@ const Recipes: NextPage = () => {
   );
 };
 
-export default withCurrentUser(Recipes);
+export default Recipes;

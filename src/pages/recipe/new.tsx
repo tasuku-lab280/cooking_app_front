@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { gql, useMutation } from '@apollo/client';
 import {
   Grid,
@@ -11,6 +12,7 @@ import {
   MultiSelect,
   InputWrapper,
   Switch,
+  LoadingOverlay,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useToggle } from '@mantine/hooks';
@@ -21,7 +23,6 @@ import { CreateRecipeMutation } from 'services/graphql/types/generated';
 import { useCategory } from 'hooks/useCategory';
 import { BaseLayout } from 'layouts/BaseLayout';
 import { ImageUpload } from 'components/forms/ImageUpload';
-import { withCurrentUser } from 'utils/withCurrentUser';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CreateRecipe($input: CreateRecipeInput!) {
@@ -199,4 +200,6 @@ const RecipeNew: NextPage = () => {
   );
 };
 
-export default withCurrentUser(RecipeNew);
+export default withAuthenticationRequired(RecipeNew, {
+  onRedirecting: () => <LoadingOverlay visible />,
+});

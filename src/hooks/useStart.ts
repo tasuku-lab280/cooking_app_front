@@ -26,8 +26,8 @@ export const useStart = () => {
   const dispatch = useAppDispatch();
 
   const { currentUser, loading: currentUserLoading } = useCurrentUser();
-  const [isFetchng, setIsFetchng] = useState(true);
-  const loading = currentUserLoading || isFetchng;
+  const [isExecuting, setIsExecuting] = useState(true);
+  const loading = currentUserLoading || isExecuting;
 
   const [createUser, { loading: createUserLoading }] =
     useMutation<CreateUserMutation>(CREATE_USER_MUTATION, {
@@ -69,21 +69,17 @@ export const useStart = () => {
     });
 
   useEffect(() => {
-    if (currentUserLoading) return;
+    (async () => {
+      if (currentUserLoading) return;
 
-    if (currentUser) {
-      dispatch(
-        login({
-          id: currentUser.id,
-          accountId: currentUser.accountId,
-          nickname: currentUser.nickname,
-          isLoggedIn: true,
-        })
-      );
-      router.push('/');
-    }
+      if (currentUser) {
+        const { id, accountId, nickname } = currentUser;
+        dispatch(login({ id, accountId, nickname, isLoggedIn: true }));
+        await router.push('/');
+      }
 
-    if (!currentUser) setIsFetchng(false);
+      setIsExecuting(false);
+    })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, currentUserLoading]);

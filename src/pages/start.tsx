@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import {
   Button,
   Container,
@@ -95,4 +95,4 @@ const Start: NextPage = () => {
   );
 };
 
-export default Start;
+export default withAuthenticationRequired(Start);
