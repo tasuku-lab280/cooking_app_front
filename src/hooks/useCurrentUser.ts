@@ -6,7 +6,7 @@ const CURRENT_USER_QUERY = gql`
   query CurrentUser {
     currentUser {
       id
-      email
+      accountId
       nickname
     }
   }

@@ -1,8 +1,8 @@
-mutation CreateUser($email: String!, $nickname: String!) {
-  createUser(input: { email: $email, nickname: $nickname }) {
+mutation CreateUser($accountId: String!, $nickname: String!) {
+  createUser(input: { accountId: $accountId, nickname: $nickname }) {
     user {
       id
-      email
+      accountId
       nickname
     }
     errors

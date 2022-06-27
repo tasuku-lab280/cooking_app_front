@@ -1,11 +1,9 @@
-import { AppShell, useMantineTheme } from '@mantine/core';
+import { AppShell, Container, useMantineTheme } from '@mantine/core';
 
 import { Header } from 'layouts/Header';
 import { Navbar } from 'layouts/Navbar';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = { children: React.ReactNode };
 
 export const BaseLayout = ({ children }: Props) => {
   const theme = useMantineTheme();
@@ -25,7 +23,9 @@ export const BaseLayout = ({ children }: Props) => {
       navbar={<Navbar />}
       header={<Header />}
     >
-      {children}
+      <Container size="xl" pt={16}>
+        {children}
+      </Container>
     </AppShell>
   );
 };

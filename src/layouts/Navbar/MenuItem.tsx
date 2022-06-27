@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
 
-interface MainLinkProps {
+type Props = {
   label: string;
   href: string;
   icon: React.ReactNode;
   color: string;
-}
+};
 
-export const MenuItem = (props: MainLinkProps) => {
+export const MenuItem = (props: Props) => {
   const { label, href, icon, color } = props;
   const router = useRouter();
   const activeColor = router.pathname === href ? 'teal' : '';
@@ -38,7 +38,6 @@ export const MenuItem = (props: MainLinkProps) => {
             <ThemeIcon size={35} color={color} variant="light">
               {icon}
             </ThemeIcon>
-
             <Text size="lg" weight="bold" color={activeColor}>
               {label}
             </Text>

@@ -6,9 +6,7 @@ import {
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = { children: React.ReactNode };
 
 export const MantineProvider = ({ children }: Props) => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');

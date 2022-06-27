@@ -1,19 +1,19 @@
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { gql, useMutation } from '@apollo/client';
 import { showNotification } from '@mantine/notifications';
 
-import { useAppDispatch } from 'hooks/useStore';
 import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useAppDispatch } from 'hooks/useStore';
 import { CreateUserMutation } from 'services/graphql/types/generated';
-import { login } from 'services/redux/slices/currentUserSlice';
+import { login } from 'services/redux';
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreateUserMutation($email: String!, $nickname: String!) {
-    createUser(input: { email: $email, nickname: $nickname }) {
+  mutation CreateUser($accountId: String!, $nickname: String!) {
+    createUser(input: { accountId: $accountId, nickname: $nickname }) {
       user {
         id
-        email
+        accountId
         nickname
       }
       errors
@@ -24,8 +24,11 @@ const CREATE_USER_MUTATION = gql`
 export const useStart = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isFetchng, setIsFetchng] = useState(true);
+
   const { currentUser, loading: currentUserLoading } = useCurrentUser();
+  const [isExecuting, setIsExecuting] = useState(true);
+  const loading = currentUserLoading || isExecuting;
+
   const [createUser, { loading: createUserLoading }] =
     useMutation<CreateUserMutation>(CREATE_USER_MUTATION, {
       onCompleted: async (data) => {
@@ -45,8 +48,8 @@ export const useStart = () => {
 
         // 正常処理
         if (createUserData?.user) {
-          const { id, email, nickname } = createUserData.user;
-          dispatch(login({ id, email, nickname, isLoggedIn: true }));
+          const { id, accountId, nickname } = createUserData.user;
+          dispatch(login({ id, accountId, nickname, isLoggedIn: true }));
           await router.push('/');
           showNotification({
             title: 'アカウント登録しました！',
@@ -66,26 +69,20 @@ export const useStart = () => {
     });
 
   useEffect(() => {
-    if (currentUserLoading) return;
+    (async () => {
+      if (currentUserLoading) return;
 
-    if (currentUser) {
-      dispatch(
-        login({
-          id: currentUser.id,
-          email: currentUser.email,
-          nickname: currentUser.nickname,
-          isLoggedIn: true,
-        })
-      );
-      router.push('/');
-    }
+      if (currentUser) {
+        const { id, accountId, nickname } = currentUser;
+        dispatch(login({ id, accountId, nickname, isLoggedIn: true }));
+        await router.push('/');
+      }
 
-    if (!currentUser) setIsFetchng(false);
+      setIsExecuting(false);
+    })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, currentUserLoading]);
-
-  const loading = currentUserLoading || isFetchng;
 
   return { loading, createUser, createUserLoading };
 };
